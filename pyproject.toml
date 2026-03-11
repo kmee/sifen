@@ -7,7 +7,7 @@ name = "sifenlib"
 description = "Bindings Python para ler e gerar XML do SIFEN (Paraguay)"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     { name = "mileo", email = "mileo@kmee.com.br" },
 ]
@@ -19,7 +19,6 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -57,10 +56,13 @@ version = {attr = "sifenlib.__version__"}
 "sifenlib" = ["de/schemas/**/*.xsd", "de/samples/**/*.xml"]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"sifenlib/de/bindings/**" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

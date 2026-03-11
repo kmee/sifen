@@ -101,9 +101,9 @@ class TestSchemaUpdates:
     """Detecta se há novos schemas disponíveis na SET."""
 
     def test_check_remote_schemas(self):
-        import urllib.request
-        import ssl
         import re
+        import ssl
+        import urllib.request
 
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
