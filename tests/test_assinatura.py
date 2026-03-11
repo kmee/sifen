@@ -3,6 +3,9 @@ import os
 
 import pytest
 
+pytest.importorskip("signxml", reason="signxml not installed")
+pytest.importorskip("cryptography", reason="cryptography not installed")
+
 SAMPLES_DIR = os.path.join(
     os.path.dirname(__file__), "..", "pysifen", "de", "samples", "v150"
 )

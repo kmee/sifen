@@ -5,6 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+pytest.importorskip("requests", reason="requests not installed")
+
 warnings.filterwarnings("ignore")
 
 

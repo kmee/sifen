@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import tempfile
 
-from xsdata.formats.dataclass.client import Client, Config
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import (
@@ -86,12 +85,14 @@ class TransmissaoBase:
         self._cert_files = (cert_file.name, key_file.name)
         return self._cert_files
 
-    def _get_client(self, servico: str) -> Client:
+    def _get_client(self, servico: str):
         """Retorna xsdata SOAP client para o serviço.
 
         O client é configurado com mTLS usando o certificado
         PKCS12.
         """
+        from xsdata.formats.dataclass.client import Client, Config
+
         url = get_endpoint(self.ambiente, servico)
         cert_path, key_path = self._get_cert_files()
 

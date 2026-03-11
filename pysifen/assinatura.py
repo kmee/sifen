@@ -1,6 +1,4 @@
 """Assinatura digital XML para SIFEN (RSA-SHA256)."""
-from lxml import etree
-from signxml import XMLSigner, methods
 
 
 def sign_xml(xml_input, pkcs12_data, pkcs12_password, doc_id):
@@ -21,6 +19,8 @@ def sign_xml(xml_input, pkcs12_data, pkcs12_password, doc_id):
         PrivateFormat,
         pkcs12,
     )
+    from lxml import etree
+    from signxml import XMLSigner, methods
 
     password = (
         pkcs12_password.encode()

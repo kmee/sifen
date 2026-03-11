@@ -1224,6 +1224,7 @@ class TestSignXml:
 
     def test_cert_file_valid_pkcs12(self, cert_data):
         """Certificado de teste é PKCS12 válido."""
+        pytest.importorskip("cryptography")
         from cryptography.hazmat.primitives.serialization import pkcs12
 
         private_key, cert, chain = pkcs12.load_key_and_certificates(
