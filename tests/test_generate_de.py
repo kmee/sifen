@@ -13,10 +13,10 @@ from lxml import etree
 warnings.filterwarnings("ignore")
 
 SAMPLES_DIR = os.path.join(
-    os.path.dirname(__file__), "..", "sifenlib", "de", "samples", "v150"
+    os.path.dirname(__file__), "..", "pysifen", "de", "samples", "v150"
 )
 SCHEMAS_DIR = os.path.join(
-    os.path.dirname(__file__), "..", "sifenlib", "de", "schemas", "v150"
+    os.path.dirname(__file__), "..", "pysifen", "de", "schemas", "v150"
 )
 
 
@@ -25,7 +25,7 @@ SCHEMAS_DIR = os.path.join(
 
 def _make_signature():
     """Cria um Signature xmldsig placeholder para testes."""
-    from sifenlib.de.bindings.v150.xmldsig_core_schema import (
+    from pysifen.de.bindings.v150.xmldsig_core_schema import (
         CanonicalizationMethod,
         DigestMethod,
         DigestValue,
@@ -70,7 +70,7 @@ def _make_signature():
 
 def _make_emisor():
     """Cria um emissor padrão para testes."""
-    from sifenlib.de.bindings.v150.fe_v141 import TgActEco, TgEmis
+    from pysifen.de.bindings.v150.fe_v141 import TgActEco, TgEmis
 
     return TgEmis(
         dRucEm="80069563",
@@ -95,7 +95,7 @@ def _make_emisor():
 
 def _make_receptor():
     """Cria um receptor padrão para testes."""
-    from sifenlib.de.bindings.v150.fe_v141 import TgDatRec
+    from pysifen.de.bindings.v150.fe_v141 import TgDatRec
 
     return TgDatRec(
         iNatRec="1",
@@ -118,7 +118,7 @@ def _make_item(
     iva_rate=Decimal("10"),
 ):
     """Cria um item de venda para testes."""
-    from sifenlib.de.bindings.v150.fe_v141 import (
+    from pysifen.de.bindings.v150.fe_v141 import (
         TgCamItem,
         TgCamIva,
         TgValorItem,
@@ -167,7 +167,7 @@ def _make_totales(
     sub_exe=None,
 ):
     """Cria totais para testes."""
-    from sifenlib.de.bindings.v150.fe_v141 import TgTotSub
+    from pysifen.de.bindings.v150.fe_v141 import TgTotSub
 
     return TgTotSub(
         dSub10=total if iva10 else None,
@@ -195,7 +195,7 @@ class TestGenerateFactura:
 
     def test_build_factura_simple(self):
         """Constrói uma factura com 1 item e verifica serialização."""
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamCond,
@@ -297,7 +297,7 @@ class TestGenerateFactura:
 
     def test_build_factura_multi_items(self):
         """Constrói factura com múltiplos itens."""
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamCond,
@@ -400,7 +400,7 @@ class TestGenerateFactura:
 
     def test_build_factura_credito(self):
         """Constrói factura a crédito com cuotas."""
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamCond,
@@ -521,7 +521,7 @@ class TestGenerateNotaCredito:
     """Geração de Nota de Crédito com documento associado."""
 
     def test_build_nota_credito(self):
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamCond,
@@ -643,7 +643,7 @@ class TestGenerateNotaDebito:
     """Geração de Nota de Débito."""
 
     def test_build_nota_debito(self):
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamCond,
@@ -762,7 +762,7 @@ class TestGenerateNotaRemision:
     """Geração de Nota de Remisión."""
 
     def test_build_nota_remision(self):
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamFuFd,
@@ -851,7 +851,7 @@ class TestRoundTrip:
     """Round-trip: XML → objeto → XML → objeto, comparando campos."""
 
     def test_roundtrip_factura_from_sample(self):
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
         rde1 = RDe.from_path(path)
@@ -877,7 +877,7 @@ class TestRoundTrip:
 
     def test_roundtrip_all_samples_xml_stable(self):
         """XML é estável: serializar 2x produz resultado idêntico."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         for filename in sorted(os.listdir(SAMPLES_DIR)):
             if not filename.endswith(".xml"):
@@ -893,7 +893,7 @@ class TestRoundTrip:
 
     def test_roundtrip_generated_factura(self):
         """Round-trip de factura gerada programaticamente."""
-        from sifenlib.de.bindings.v150.fe_v141 import (
+        from pysifen.de.bindings.v150.fe_v141 import (
             RDe,
             TDe,
             TgCamCond,
@@ -1002,7 +1002,7 @@ class TestDeepReadSamples:
 
     def test_factura_complete_navigation(self):
         """Navega por todos os níveis da factura."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
         rde = RDe.from_path(path)
@@ -1073,7 +1073,7 @@ class TestDeepReadSamples:
 
     def test_nota_credito_complete_navigation(self):
         """Navega pela nota de crédito com documento associado."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "nota_credito.xml")
         rde = RDe.from_path(path)
@@ -1090,7 +1090,7 @@ class TestDeepReadSamples:
 
     def test_autofactura_complete_navigation(self):
         """Navega pela autofactura com dados do vendedor."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "autofactura.xml")
         rde = RDe.from_path(path)
@@ -1104,7 +1104,7 @@ class TestDeepReadSamples:
 
     def test_nota_remision_complete_navigation(self):
         """Navega pela nota de remisión com motivo de traslado."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "nota_remision.xml")
         rde = RDe.from_path(path)
@@ -1127,7 +1127,7 @@ class TestXmlValidation:
     """Testes de validação estrutural do XML gerado."""
 
     def test_xml_has_declaration(self):
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
         rde = RDe.from_path(path)
@@ -1136,7 +1136,7 @@ class TestXmlValidation:
 
     def test_xml_is_well_formed(self):
         """Verifica que o XML gerado é well-formed."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         for filename in sorted(os.listdir(SAMPLES_DIR)):
             if not filename.endswith(".xml"):
@@ -1149,7 +1149,7 @@ class TestXmlValidation:
 
     def test_xml_has_namespace(self):
         """XML gerado contém o namespace SIFEN."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
         rde = RDe.from_path(path)
@@ -1158,7 +1158,7 @@ class TestXmlValidation:
 
     def test_xml_has_xmldsig_namespace(self):
         """XML gerado contém namespace xmldsig para Signature."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
         rde = RDe.from_path(path)
@@ -1199,7 +1199,7 @@ class TestSignXml:
 
     def test_sign_xml_requires_signxml(self, cert_data):
         """sign_xml levanta ImportError sem signxml."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe
+        from pysifen.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
         rde = RDe.from_path(path)
@@ -1208,7 +1208,7 @@ class TestSignXml:
         try:
             rde.sign_xml(xml, cert_data, "test1234", rde.DE.Id)
         except ImportError as e:
-            assert "sifenlib[sign]" in str(e)
+            assert "pysifen[sign]" in str(e)
         except Exception:
             # Se signxml estiver instalado, qualquer
             # erro de assinatura é aceitável neste teste
@@ -1216,7 +1216,7 @@ class TestSignXml:
 
     def test_sign_method_exists(self):
         """sign_xml está disponível em todas as classes."""
-        from sifenlib.de.bindings.v150.fe_v141 import RDe, TDe, TgEmis
+        from pysifen.de.bindings.v150.fe_v141 import RDe, TDe, TgEmis
 
         for cls in [RDe, TDe, TgEmis]:
             assert hasattr(cls, "sign_xml")

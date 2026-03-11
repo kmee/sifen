@@ -7,7 +7,7 @@ import pytest
 warnings.filterwarnings("ignore")
 
 SCHEMAS_DIR = os.path.join(
-    os.path.dirname(__file__), "..", "sifenlib", "de", "schemas", "v150"
+    os.path.dirname(__file__), "..", "pysifen", "de", "schemas", "v150"
 )
 
 
@@ -65,7 +65,7 @@ class TestBindingsIntegrity:
     """Verifica integridade dos bindings gerados."""
 
     def test_bindings_importable(self):
-        from sifenlib.de.bindings.v150 import fe_v141
+        from pysifen.de.bindings.v150 import fe_v141
 
         assert hasattr(fe_v141, "RDe")
 
@@ -73,11 +73,11 @@ class TestBindingsIntegrity:
         import importlib
         import pkgutil
 
-        import sifenlib.de.bindings.v150 as pkg
+        import pysifen.de.bindings.v150 as pkg
 
         for importer, modname, ispkg in pkgutil.iter_modules(pkg.__path__):
             mod = importlib.import_module(
-                f"sifenlib.de.bindings.v150.{modname}"
+                f"pysifen.de.bindings.v150.{modname}"
             )
             assert mod is not None, f"Failed to import {modname}"
 
@@ -85,7 +85,7 @@ class TestBindingsIntegrity:
         """Verifica quantidade mínima de módulos de bindings."""
         import pkgutil
 
-        import sifenlib.de.bindings.v150 as pkg
+        import pysifen.de.bindings.v150 as pkg
 
         modules = list(pkgutil.iter_modules(pkg.__path__))
         assert len(modules) >= 20, (

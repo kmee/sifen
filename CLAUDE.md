@@ -1,4 +1,4 @@
-# sifenlib — Diretrizes do Projeto
+# pysifen — Diretrizes do Projeto
 
 ## Visão Geral
 
@@ -11,20 +11,20 @@ Biblioteca Python que gera automaticamente bindings (dataclasses) a partir dos s
 - **Licença:** MIT
 - **Copyright:** KMEE
 - **Autor:** mileo
-- **GitHub:** `KMEE/sifenlib`
+- **GitHub:** `KMEE/pysifen`
 - **Python:** >=3.10
 - **Dependência principal:** xsdata
 
 ## Estrutura do Projeto
 
 ```
-sifenlib/
+pysifen/
 ├── .xsdata.xml                    # Configuração do xsdata (originalCase, CommonMixin extension)
 ├── pyproject.toml                 # Build config (setuptools)
 ├── script.sh                      # Script de geração de bindings
 ├── README.md
 ├── MIT-LICENSE
-├── sifenlib/
+├── pysifen/
 │   ├── __init__.py                # __version__ = "0.1.0"
 │   ├── CommonMixin.py             # Mixin: from_xml, to_xml, from_path, validate_xml, sign_xml
 │   ├── assinatura.py              # sign_xml() — signxml direto com RSA-SHA256
@@ -64,17 +64,17 @@ pip install -e ".[sign,test]"
 pytest tests/ -v
 
 # Lint
-ruff check sifenlib/ tests/
+ruff check pysifen/ tests/
 ```
 
 ## Convenções
 
 ### Código
-- **Bindings são gerados automaticamente** — NUNCA editar arquivos em `sifenlib/de/bindings/` manualmente
+- **Bindings são gerados automaticamente** — NUNCA editar arquivos em `pysifen/de/bindings/` manualmente
 - **FieldName originalCase** — campos mantêm nomes do XSD (ex: `iTipEmi`, `dDesTipEmi`, `gOpeDE`)
 - **CommonMixin** é injetado em todas as classes via `.xsdata.xml` Extension
 - **Um arquivo .py por arquivo .xsd** (Structure: filenames)
-- **Assinatura centralizada** — `sifenlib/assinatura.py` é o ponto único de assinatura, usado tanto por `CommonMixin.sign_xml()` quanto por `TransmissaoBase._sign_xml()`
+- **Assinatura centralizada** — `pysifen/assinatura.py` é o ponto único de assinatura, usado tanto por `CommonMixin.sign_xml()` quanto por `TransmissaoBase._sign_xml()`
 
 ### Schemas XSD
 - Fonte oficial: `https://ekuatia.set.gov.py/sifen/xsd/`
@@ -91,7 +91,7 @@ ruff check sifenlib/ tests/
 - Framework: pytest
 - Cada tipo de DE deve ter teste de leitura (parsing) e escrita (serialização)
 - Testes de round-trip: XML → objeto → XML → comparar
-- Samples XML em `sifenlib/de/samples/v150/`
+- Samples XML em `pysifen/de/samples/v150/`
 - Testes de transmissão usam mock (não fazem chamadas reais)
 - Testes de assinatura usam `tests/test_cert.pfx` (senha: `test1234`)
 
@@ -118,7 +118,7 @@ ruff check sifenlib/ tests/
 ### Bindings (leitura/escrita)
 
 ```python
-from sifenlib.de.bindings.v150.fe_v141 import RDe
+from pysifen.de.bindings.v150.fe_v141 import RDe
 
 # Ler XML
 rde = RDe.from_path("factura.xml")
@@ -142,14 +142,14 @@ errors = rde.validate_xml()
 signed = rde.sign_xml(xml, pkcs12_data, password, doc_id)
 
 # Via função direta
-from sifenlib.assinatura import sign_xml
+from pysifen.assinatura import sign_xml
 signed = sign_xml(xml, pkcs12_data, password, doc_id)
 ```
 
 ### Transmissão SOAP
 
 ```python
-from sifenlib.transmissao import (
+from pysifen.transmissao import (
     TransmissaoDE, ConsultaSIFEN, TransmissaoEvento,
     PRODUCCION, TEST,
 )

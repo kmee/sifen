@@ -4,7 +4,7 @@ import os
 import pytest
 
 SAMPLES_DIR = os.path.join(
-    os.path.dirname(__file__), "..", "sifenlib", "de", "samples", "v150"
+    os.path.dirname(__file__), "..", "pysifen", "de", "samples", "v150"
 )
 
 
@@ -30,7 +30,7 @@ def sample_xml():
 
 @pytest.fixture
 def sample_rde():
-    from sifenlib.de.bindings.v150.fe_v141 import RDe
+    from pysifen.de.bindings.v150.fe_v141 import RDe
 
     path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
     return RDe.from_path(path)
@@ -43,7 +43,7 @@ class TestSignXml:
         self, cert_data, sample_rde
     ):
         """Assina XML de amostra e verifica Signature."""
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml()
         signed = sign_xml(
@@ -56,7 +56,7 @@ class TestSignXml:
 
     def test_sign_xml_sha256(self, cert_data, sample_rde):
         """Verifica que usa SHA256 (não SHA1)."""
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml()
         signed = sign_xml(
@@ -72,7 +72,7 @@ class TestSignXml:
         """Verifica que Reference URI aponta para o CDC."""
         from lxml import etree
 
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml()
         doc_id = sample_rde.DE.Id
@@ -90,7 +90,7 @@ class TestSignXml:
         """Assina, parseia de volta, verifica estrutura."""
         from lxml import etree
 
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml()
         signed = sign_xml(
@@ -112,7 +112,7 @@ class TestSignXml:
 
     def test_sign_xml_invalid_cert(self, sample_rde):
         """Testa erro com certificado inválido."""
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml()
         with pytest.raises(Exception):
@@ -124,7 +124,7 @@ class TestSignXml:
         self, cert_data, sample_rde
     ):
         """Aceita XML como bytes."""
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml().encode()
         signed = sign_xml(
@@ -136,7 +136,7 @@ class TestSignXml:
         self, cert_data, sample_rde
     ):
         """Aceita senha como bytes."""
-        from sifenlib.assinatura import sign_xml
+        from pysifen.assinatura import sign_xml
 
         xml = sample_rde.to_xml()
         signed = sign_xml(

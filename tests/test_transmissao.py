@@ -15,7 +15,7 @@ class TestConfig:
     """Testes de configuração de endpoints."""
 
     def test_ambientes_existem(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             ENDPOINTS,
             PRODUCCION,
             TEST,
@@ -25,7 +25,7 @@ class TestConfig:
         assert TEST in ENDPOINTS
 
     def test_endpoints_produccion(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             ENDPOINTS,
             PRODUCCION,
         )
@@ -45,7 +45,7 @@ class TestConfig:
             assert endpoints[servico].startswith("https://")
 
     def test_endpoints_test(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             ENDPOINTS,
             TEST,
         )
@@ -55,7 +55,7 @@ class TestConfig:
             assert "sifen-test" in url
 
     def test_get_endpoint_produccion(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             PRODUCCION,
             get_endpoint,
         )
@@ -64,7 +64,7 @@ class TestConfig:
         assert "sifen.set.gov.py" in url
 
     def test_get_endpoint_test(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             TEST,
             get_endpoint,
         )
@@ -73,13 +73,13 @@ class TestConfig:
         assert "sifen-test" in url
 
     def test_get_endpoint_ambiente_invalido(self):
-        from sifenlib.transmissao.config import get_endpoint
+        from pysifen.transmissao.config import get_endpoint
 
         with pytest.raises(ValueError, match="Ambiente inválido"):
             get_endpoint(99, "recep_de")
 
     def test_get_endpoint_servico_invalido(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             PRODUCCION,
             get_endpoint,
         )
@@ -95,7 +95,7 @@ class TestImports:
     """Testa que todos os módulos importam corretamente."""
 
     def test_import_transmissao(self):
-        from sifenlib.transmissao import (
+        from pysifen.transmissao import (
             PRODUCCION,
             TEST,
             ConsultaSIFEN,
@@ -110,7 +110,7 @@ class TestImports:
         assert TransmissaoEvento is not None
 
     def test_import_config(self):
-        from sifenlib.transmissao.config import (
+        from pysifen.transmissao.config import (
             ENDPOINTS,
             PRODUCCION,
             TEST,
@@ -123,22 +123,22 @@ class TestImports:
         assert TEST == 2
 
     def test_import_base(self):
-        from sifenlib.transmissao.base import TransmissaoBase
+        from pysifen.transmissao.base import TransmissaoBase
 
         assert TransmissaoBase is not None
 
     def test_import_de(self):
-        from sifenlib.transmissao.de import TransmissaoDE
+        from pysifen.transmissao.de import TransmissaoDE
 
         assert TransmissaoDE is not None
 
     def test_import_consulta(self):
-        from sifenlib.transmissao.consulta import ConsultaSIFEN
+        from pysifen.transmissao.consulta import ConsultaSIFEN
 
         assert ConsultaSIFEN is not None
 
     def test_import_evento(self):
-        from sifenlib.transmissao.evento import TransmissaoEvento
+        from pysifen.transmissao.evento import TransmissaoEvento
 
         assert TransmissaoEvento is not None
 
@@ -150,8 +150,8 @@ class TestTransmissaoDE:
     """Testes de transmissão de DE."""
 
     def _make_transmissao(self):
-        from sifenlib.transmissao.config import TEST
-        from sifenlib.transmissao.de import TransmissaoDE
+        from pysifen.transmissao.config import TEST
+        from pysifen.transmissao.de import TransmissaoDE
 
         return TransmissaoDE(
             ambiente=TEST,
@@ -166,24 +166,24 @@ class TestTransmissaoDE:
         assert t.pkcs12_password == "fake-pass"
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._sign_xml"
+        "pysifen.transmissao.base.TransmissaoBase._sign_xml"
     )
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._serialize"
+        "pysifen.transmissao.base.TransmissaoBase._serialize"
     )
     def test_enviar_de_mock(
         self, mock_serialize, mock_sign, mock_client
     ):
-        from sifenlib.de.bindings.v150.prot_proces_de_v150 import (
+        from pysifen.de.bindings.v150.prot_proces_de_v150 import (
             RProtDe,
         )
-        from sifenlib.de.bindings.v150.prot_proces_eventos_v141 import (
+        from pysifen.de.bindings.v150.prot_proces_eventos_v141 import (
             TgResProc,
         )
-        from sifenlib.de.bindings.v150.ws_si_recep_de_v150 import (
+        from pysifen.de.bindings.v150.ws_si_recep_de_v150 import (
             RRetEnviDe,
         )
 
@@ -234,18 +234,18 @@ class TestTransmissaoDE:
             t.enviar_lote([])
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._sign_xml"
+        "pysifen.transmissao.base.TransmissaoBase._sign_xml"
     )
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._serialize"
+        "pysifen.transmissao.base.TransmissaoBase._serialize"
     )
     def test_enviar_lote_mock(
         self, mock_serialize, mock_sign, mock_client
     ):
-        from sifenlib.de.bindings.v150.ws_si_recep_lote_de_v141 import (
+        from pysifen.de.bindings.v150.ws_si_recep_lote_de_v141 import (
             RResEnviLoteDe,
         )
 
@@ -285,13 +285,13 @@ class TestTransmissaoDE:
         with patch.object(t, "_get_client") as mock_client, \
              patch.object(t, "_sign_xml") as mock_sign, \
              patch.object(t, "_serialize") as mock_serialize:
-            from sifenlib.de.bindings.v150.prot_proces_de_v150 import (
+            from pysifen.de.bindings.v150.prot_proces_de_v150 import (
                 RProtDe,
             )
-            from sifenlib.de.bindings.v150.prot_proces_eventos_v141 import (
+            from pysifen.de.bindings.v150.prot_proces_eventos_v141 import (
                 TgResProc,
             )
-            from sifenlib.de.bindings.v150.ws_si_recep_de_v150 import (
+            from pysifen.de.bindings.v150.ws_si_recep_de_v150 import (
                 RRetEnviDe,
             )
 
@@ -324,8 +324,8 @@ class TestConsultaSIFEN:
     """Testes de consultas ao SIFEN."""
 
     def _make_consulta(self):
-        from sifenlib.transmissao.config import TEST
-        from sifenlib.transmissao.consulta import ConsultaSIFEN
+        from pysifen.transmissao.config import TEST
+        from pysifen.transmissao.consulta import ConsultaSIFEN
 
         return ConsultaSIFEN(
             ambiente=TEST,
@@ -354,10 +354,10 @@ class TestConsultaSIFEN:
             c.consultar_ruc("123456789")
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     def test_consultar_de_mock(self, mock_client):
-        from sifenlib.de.bindings.v150.ws_si_cons_de_v141 import (
+        from pysifen.de.bindings.v150.ws_si_cons_de_v141 import (
             REnviConsDeResponse,
         )
 
@@ -379,10 +379,10 @@ class TestConsultaSIFEN:
         assert result.dCodRes == "0422"
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     def test_consultar_lote_mock(self, mock_client):
-        from sifenlib.de.bindings.v150.ws_si_cons_lote_v141 import (
+        from pysifen.de.bindings.v150.ws_si_cons_lote_v141 import (
             RResEnviConsLoteDe,
         )
 
@@ -402,10 +402,10 @@ class TestConsultaSIFEN:
         assert result.dCodResLot == "0362"
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     def test_consultar_ruc_mock(self, mock_client):
-        from sifenlib.de.bindings.v150.ws_si_cons_ruc_v141 import (
+        from pysifen.de.bindings.v150.ws_si_cons_ruc_v141 import (
             RResEnviConsRuc,
             TContenedorRuc,
         )
@@ -433,10 +433,10 @@ class TestConsultaSIFEN:
         assert result.xContRUC.dRUCFactElec == "S"
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     def test_consultar_dte_mock(self, mock_client):
-        from sifenlib.de.bindings.v150.ws_si_cons_dte import (
+        from pysifen.de.bindings.v150.ws_si_cons_dte import (
             RConsDteResponse,
         )
 
@@ -464,8 +464,8 @@ class TestTransmissaoEvento:
     """Testes de transmissão de eventos."""
 
     def _make_transmissao(self):
-        from sifenlib.transmissao.config import TEST
-        from sifenlib.transmissao.evento import TransmissaoEvento
+        from pysifen.transmissao.config import TEST
+        from pysifen.transmissao.evento import TransmissaoEvento
 
         return TransmissaoEvento(
             ambiente=TEST,
@@ -474,14 +474,14 @@ class TestTransmissaoEvento:
         )
 
     @patch(
-        "sifenlib.transmissao.base.TransmissaoBase._get_client"
+        "pysifen.transmissao.base.TransmissaoBase._get_client"
     )
     def test_enviar_evento_mock(self, mock_client):
-        from sifenlib.de.bindings.v150.prot_proces_eventos_v141 import (
+        from pysifen.de.bindings.v150.prot_proces_eventos_v141 import (
             TgResProc,
             TgResProcEve,
         )
-        from sifenlib.de.bindings.v150.ws_si_recep_evento_v150 import (
+        from pysifen.de.bindings.v150.ws_si_recep_evento_v150 import (
             RRetEnviEventoDe,
         )
 
@@ -521,11 +521,11 @@ class TestTransmissaoBase:
     """Testes da classe base."""
 
     def test_serialize(self):
-        from sifenlib.de.bindings.v150.ws_si_cons_ruc_v141 import (
+        from pysifen.de.bindings.v150.ws_si_cons_ruc_v141 import (
             REnviConsRuc,
         )
-        from sifenlib.transmissao.base import TransmissaoBase
-        from sifenlib.transmissao.config import TEST
+        from pysifen.transmissao.base import TransmissaoBase
+        from pysifen.transmissao.config import TEST
 
         t = TransmissaoBase(
             ambiente=TEST,
@@ -539,11 +539,11 @@ class TestTransmissaoBase:
         assert "80069563" in xml
 
     def test_parse(self):
-        from sifenlib.de.bindings.v150.ws_si_cons_ruc_v141 import (
+        from pysifen.de.bindings.v150.ws_si_cons_ruc_v141 import (
             REnviConsRuc,
         )
-        from sifenlib.transmissao.base import TransmissaoBase
-        from sifenlib.transmissao.config import TEST
+        from pysifen.transmissao.base import TransmissaoBase
+        from pysifen.transmissao.config import TEST
 
         t = TransmissaoBase(
             ambiente=TEST,
@@ -558,8 +558,8 @@ class TestTransmissaoBase:
         assert parsed.dRUCCons == "80069563"
 
     def test_cleanup(self):
-        from sifenlib.transmissao.base import TransmissaoBase
-        from sifenlib.transmissao.config import TEST
+        from pysifen.transmissao.base import TransmissaoBase
+        from pysifen.transmissao.config import TEST
 
         t = TransmissaoBase(
             ambiente=TEST,

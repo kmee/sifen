@@ -1,4 +1,4 @@
-# Plano de Desenvolvimento: sifenlib
+# Plano de Desenvolvimento: pysifen
 
 **Bindings Python para ler e gerar XML do SIFEN (Paraguay) — usando xsdata, no formato nfelib**
 
@@ -8,11 +8,11 @@
 
 ### O que é
 
-A **sifenlib** será uma biblioteca Python que gera automaticamente bindings (dataclasses) a partir dos schemas XSD oficiais do SIFEN (Sistema Integrado de Facturación Electrónica Nacional) do Paraguai, usando a mesma abordagem comprovada da [nfelib](https://github.com/akretion/nfelib) da Akretion.
+A **pysifen** será uma biblioteca Python que gera automaticamente bindings (dataclasses) a partir dos schemas XSD oficiais do SIFEN (Sistema Integrado de Facturación Electrónica Nacional) do Paraguai, usando a mesma abordagem comprovada da [nfelib](https://github.com/akretion/nfelib) da Akretion.
 
 ### Por que fazer
 
-- **Não existe** uma biblioteca Python equivalente para o SIFEN — a única lib open source conhecida é a [rshk-jsifenlib](https://github.com/roshkadev/rshk-jsifenlib), escrita em Java.
+- **Não existe** uma biblioteca Python equivalente para o SIFEN — a única lib open source conhecida é a [rshk-jpysifen](https://github.com/roshkadev/rshk-jpysifen), escrita em Java.
 - O SIFEN é **obrigatório** para cada vez mais contribuintes no Paraguai (desde 2026, para provedores do Estado), gerando demanda crescente.
 - O padrão nfelib com xsdata provou ser extremamente eficiente: os bindings são gerados automaticamente, eliminando milhares de linhas de código manual.
 
@@ -102,7 +102,7 @@ Todos os schemas usam o namespace: `http://ekuatia.set.gov.py/sifen/xsd`
 ### Estrutura de diretórios
 
 ```
-sifenlib/
+pysifen/
 ├── .xsdata.xml                          # Configuração do xsdata
 ├── .gitignore
 ├── .pre-commit-config.yaml
@@ -111,8 +111,8 @@ sifenlib/
 ├── README.md
 ├── MIT-LICENSE
 ├── ext/
-│   └── sifenlib.jpg                     # Logo/imagem do projeto
-├── sifenlib/
+│   └── pysifen.jpg                     # Logo/imagem do projeto
+├── pysifen/
 │   ├── __init__.py                      # __version__ = "0.1.0"
 │   ├── CommonMixin.py                   # Mixin com from_xml, to_xml, from_path, validate_xml, sign_xml
 │   └── de/                              # Documento Electrónico
@@ -186,7 +186,7 @@ Seguindo a nfelib, usar apenas **2 dígitos** para a versão do schema na pasta:
   </Output>
   <Extensions>
     <Extension type="class" class=".*"
-               import="sifenlib.CommonMixin"
+               import="pysifen.CommonMixin"
                prepend="false" applyIfDerived="false"/>
   </Extensions>
   <Conventions>
@@ -262,7 +262,7 @@ class CommonMixin:
         # Localizar o XSD baseado no módulo da classe
         module = self.__class__.__module__
         parts = module.split(".")
-        # sifenlib.de.bindings.v150.de_v150 -> sifenlib/de/schemas/v150/
+        # pysifen.de.bindings.v150.de_v150 -> pysifen/de/schemas/v150/
         schema_dir = os.path.join(
             os.path.dirname(__file__),
             parts[1],  # "de"
@@ -315,8 +315,8 @@ echo "=== Gerando bindings do SIFEN ==="
 
 # Documento Electrónico v150
 echo "Gerando DE v150..."
-xsdata generate sifenlib/de/schemas/v150 \
-    --package sifenlib.de.bindings.v150
+xsdata generate pysifen/de/schemas/v150 \
+    --package pysifen.de.bindings.v150
 
 echo "=== Bindings gerados com sucesso ==="
 ```
@@ -333,7 +333,7 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.backends._legacy:_Backend"
 
 [project]
-name = "sifenlib"
+name = "pysifen"
 description = "Bindings Python para ler e gerar XML do SIFEN (Paraguay)"
 readme = "README.md"
 license = "MIT"
@@ -358,8 +358,8 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Homepage = "https://github.com/SEU_USER/sifenlib"
-Source = "https://github.com/SEU_USER/sifenlib"
+Homepage = "https://github.com/SEU_USER/pysifen"
+Source = "https://github.com/SEU_USER/pysifen"
 
 [project.optional-dependencies]
 sign = ["erpbrasil.assinatura"]
@@ -376,7 +376,7 @@ test = [
 include-package-data = true
 
 [tool.setuptools.dynamic]
-version = {attr = "sifenlib.__version__"}
+version = {attr = "pysifen.__version__"}
 
 [tool.ruff]
 target-version = "py39"
@@ -393,12 +393,12 @@ select = ["E", "F", "I", "W"]
 
 **Objetivo:** Projeto configurado, repositório criado, xsdata instalado.
 
-- [ ] Criar repositório GitHub `sifenlib`
+- [ ] Criar repositório GitHub `pysifen`
 - [ ] Criar estrutura de diretórios conforme seção 3
 - [ ] Configurar `pyproject.toml`, `.gitignore`, `.pre-commit-config.yaml`
 - [ ] Instalar xsdata: `pip install xsdata[cli,lxml]`
 - [ ] Criar `.xsdata.xml` com a configuração da seção 4
-- [ ] Criar `sifenlib/__init__.py` com `__version__`
+- [ ] Criar `pysifen/__init__.py` com `__version__`
 
 **Verificação:** `pip install -e .` funciona sem erros.
 
@@ -410,12 +410,12 @@ select = ["E", "F", "I", "W"]
 
 - [ ] Baixar todos os XSD de `https://ekuatia.set.gov.py/sifen/xsd/`
 - [ ] Baixar o RAR com a estrutura completa da SET
-- [ ] Organizar em `sifenlib/de/schemas/v150/`
+- [ ] Organizar em `pysifen/de/schemas/v150/`
 - [ ] Verificar integridade: todos os `xs:include` e `xs:import` resolvem localmente
 - [ ] **Ajustar schemaLocation** nos XSD para usar caminhos relativos locais (os schemas originais referenciam URLs remotas como `https://ekuatia.set.gov.py/sifen/xsd/...` — precisam ser convertidos para caminhos relativos como `./DE_Types_v150.xsd`)
 - [ ] Commitar os XSD originais (com ajustes de path) no repositório
 
-**Verificação:** `xmllint --schema sifenlib/de/schemas/v150/DE_v150.xsd` valida um XML de exemplo.
+**Verificação:** `xmllint --schema pysifen/de/schemas/v150/DE_v150.xsd` valida um XML de exemplo.
 
 **Atenção:** Este é o passo mais crítico. Os XSD da SET podem ter referências cruzadas complexas que precisam ser resolvidas localmente para o xsdata funcionar.
 
@@ -427,15 +427,15 @@ select = ["E", "F", "I", "W"]
 
 - [ ] Criar o `CommonMixin.py` (seção 5)
 - [ ] Criar `script.sh` (seção 6)
-- [ ] Executar: `xsdata generate sifenlib/de/schemas/v150 --package sifenlib.de.bindings.v150`
+- [ ] Executar: `xsdata generate pysifen/de/schemas/v150 --package pysifen.de.bindings.v150`
 - [ ] Resolver erros de geração (tipos conflitantes, imports circulares, etc.)
 - [ ] Ajustar `Substitutions` no `.xsdata.xml` se necessário
-- [ ] Verificar que os bindings são importáveis: `from sifenlib.de.bindings.v150.de_v150 import Rde`
+- [ ] Verificar que os bindings são importáveis: `from pysifen.de.bindings.v150.de_v150 import Rde`
 - [ ] Commitar os bindings gerados
 
 **Verificação:**
 ```python
-from sifenlib.de.bindings.v150.de_v150 import Rde
+from pysifen.de.bindings.v150.de_v150 import Rde
 print(Rde.__dataclass_fields__.keys())
 ```
 
@@ -451,7 +451,7 @@ print(Rde.__dataclass_fields__.keys())
 **Objetivo:** Ter XMLs reais ou realistas para testes.
 
 - [ ] Buscar XMLs de exemplo no Manual Técnico do SIFEN
-- [ ] Buscar XMLs de teste na jsifenlib (repo roshkadev)
+- [ ] Buscar XMLs de teste na jpysifen (repo roshkadev)
 - [ ] Buscar XMLs na documentação da FacturaSend
 - [ ] Criar XMLs de exemplo "à mão" seguindo o Manual Técnico para cada tipo de DE:
   - Factura Electrónica (tipo 1)
@@ -462,7 +462,7 @@ print(Rde.__dataclass_fields__.keys())
   - Nota de Débito Electrónica (tipo 6)
   - Nota de Remisión Electrónica (tipo 7)
   - Comprobante de Retención Electrónico (tipo 8)
-- [ ] Salvar em `sifenlib/de/samples/v150/`
+- [ ] Salvar em `pysifen/de/samples/v150/`
 
 **Verificação:** Cada XML valida contra o XSD com `xmllint`.
 
@@ -483,8 +483,8 @@ print(Rde.__dataclass_fields__.keys())
 Exemplo de teste:
 ```python
 def test_read_factura():
-    from sifenlib.de.bindings.v150.si_recep_de_v150 import Rde
-    rde = Rde.from_path("sifenlib/de/samples/v150/factura_electronica.xml")
+    from pysifen.de.bindings.v150.si_recep_de_v150 import Rde
+    rde = Rde.from_path("pysifen/de/samples/v150/factura_electronica.xml")
     assert rde.DE.gOpeDE.iTipEmi == "1"
     assert rde.DE.gDatGralOpe.gEmis.dRucEm is not None
 ```
@@ -500,7 +500,7 @@ def test_read_factura():
 - [ ] Testar construção de DE do zero:
 
 ```python
-from sifenlib.de.bindings.v150.de_v150 import Rde, TgOpeDE, TgDatGralOpe
+from pysifen.de.bindings.v150.de_v150 import Rde, TgOpeDE, TgDatGralOpe
 rde = Rde(
     dVerFor=150,
     DE=TDE(
@@ -537,7 +537,7 @@ xml = rde.to_xml()
 - [ ] Configurar GitHub Actions para CI (testes + lint)
 - [ ] Configurar publicação no PyPI
 - [ ] Criar tag de release `v0.1.0`
-- [ ] Publicar: `pip install sifenlib`
+- [ ] Publicar: `pip install pysifen`
 
 ---
 
@@ -591,7 +591,7 @@ O `DE_v150.xsd` é um schema muito extenso com dezenas de grupos (gOpeDE, gDatGr
 
 ```python
 # === Ler um Documento Electrónico (DE) ===
-from sifenlib.de.bindings.v150.si_recep_de_v150 import Rde
+from pysifen.de.bindings.v150.si_recep_de_v150 import Rde
 rde = Rde.from_path("factura.xml")
 # ou: rde = Rde.from_xml(xml_string)
 
@@ -610,7 +610,7 @@ if not errors:
     print("XML válido!")
 
 # === Construir do zero ===
-from sifenlib.de.bindings.v150.de_v150 import *
+from pysifen.de.bindings.v150.de_v150 import *
 de = TDE(
     Id="01800695631001001000000312024112917595714694",
     dDVId=9,
@@ -646,7 +646,7 @@ signed = rde.sign_xml(xml, cert_data, "password", rde.DE.Id)
 | nfelib (referência) | https://github.com/akretion/nfelib |
 | xsdata (gerador de bindings) | https://xsdata.readthedocs.io/ |
 | xsdata-odoo (integração Odoo) | https://github.com/akretion/xsdata-odoo |
-| jsifenlib (lib Java SIFEN) | https://github.com/roshkadev/rshk-jsifenlib |
+| jpysifen (lib Java SIFEN) | https://github.com/roshkadev/rshk-jpysifen |
 | FacturaSend (API SIFEN) | https://docs.facturasend.com.py/ |
 
 ---

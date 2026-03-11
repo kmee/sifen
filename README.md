@@ -1,4 +1,4 @@
-# sifenlib
+# pysifen
 
 Bindings Python para ler e gerar XML do **SIFEN** (Sistema Integrado de Facturación Electrónica Nacional) do Paraguai.
 
@@ -7,19 +7,19 @@ Gerados automaticamente a partir dos XSD oficiais da SET usando [xsdata](https:/
 ## Instalação
 
 ```bash
-pip install sifenlib
+pip install pysifen
 ```
 
 Com assinatura digital (RSA-SHA256):
 
 ```bash
-pip install sifenlib[sign]
+pip install pysifen[sign]
 ```
 
 Com transmissão SOAP (envio ao SIFEN):
 
 ```bash
-pip install sifenlib[transmissao]
+pip install pysifen[transmissao]
 ```
 
 Para desenvolvimento:
@@ -33,7 +33,7 @@ pip install -e ".[sign,test]"
 ### Ler um Documento Electrónico (DE)
 
 ```python
-from sifenlib.de.bindings.v150.fe_v141 import RDe
+from pysifen.de.bindings.v150.fe_v141 import RDe
 
 # Ler de arquivo
 rde = RDe.from_path("factura.xml")
@@ -78,7 +78,7 @@ else:
 ### Assinar XML (RSA-SHA256)
 
 ```bash
-pip install sifenlib[sign]
+pip install pysifen[sign]
 ```
 
 ```python
@@ -91,7 +91,7 @@ Usa `signxml` diretamente com RSA-SHA256 e C14N, conforme exigido pelo SIFEN.
 A função centralizada também está disponível em:
 
 ```python
-from sifenlib.assinatura import sign_xml
+from pysifen.assinatura import sign_xml
 
 signed = sign_xml(xml, cert_data, "password", doc_id)
 ```
@@ -99,13 +99,13 @@ signed = sign_xml(xml, cert_data, "password", doc_id)
 ### Transmissão SOAP ao SIFEN
 
 ```bash
-pip install sifenlib[transmissao]
+pip install pysifen[transmissao]
 ```
 
 #### Enviar DE (síncrono)
 
 ```python
-from sifenlib.transmissao import TransmissaoDE, TEST
+from pysifen.transmissao import TransmissaoDE, TEST
 
 transmissao = TransmissaoDE(
     ambiente=TEST,
@@ -127,7 +127,7 @@ print(resultado.dProtConsLote)  # Protocolo para consulta posterior
 #### Consultar DE por CDC
 
 ```python
-from sifenlib.transmissao import ConsultaSIFEN, TEST
+from pysifen.transmissao import ConsultaSIFEN, TEST
 
 consulta = ConsultaSIFEN(
     ambiente=TEST,
@@ -148,7 +148,7 @@ print(resultado.xContRUC.dRUCFactElec)  # "S" = habilitado para FE
 #### Enviar eventos (cancelamento, inutilização, etc.)
 
 ```python
-from sifenlib.transmissao import TransmissaoEvento, TEST
+from pysifen.transmissao import TransmissaoEvento, TEST
 
 evento_transmissao = TransmissaoEvento(
     ambiente=TEST,
@@ -189,13 +189,13 @@ resultado = evento_transmissao.enviar_evento(evento)
 | `prot_proces_de_v150` | Protocolo de processamento |
 | `xmldsig_core_schema` | Assinatura digital XML |
 
-### Assinatura (`sifenlib.assinatura`)
+### Assinatura (`pysifen.assinatura`)
 
 | Função | Descrição |
 |--------|-----------|
 | `sign_xml()` | Assina XML com PKCS12/RSA-SHA256 usando `signxml` |
 
-### Transmissão (`sifenlib.transmissao`)
+### Transmissão (`pysifen.transmissao`)
 
 | Classe | Descrição |
 |--------|-----------|
@@ -232,13 +232,13 @@ pip install xsdata[cli,lxml]
 ## Desenvolvimento
 
 ```bash
-git clone https://github.com/KMEE/sifenlib.git
-cd sifenlib
+git clone https://github.com/KMEE/pysifen.git
+cd pysifen
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[sign,test]" "xsdata[cli,lxml]"
 pytest tests/ -v
-ruff check sifenlib/ tests/
+ruff check pysifen/ tests/
 ```
 
 ## Referências

@@ -13,7 +13,7 @@
   </Output>
   <Extensions>
     <Extension type="class" class=".*"
-               import="sifenlib.CommonMixin.CommonMixin"
+               import="pysifen.CommonMixin.CommonMixin"
                prepend="false" applyIfDerived="false"/>
   </Extensions>
   <Conventions>

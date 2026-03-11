@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sifenlib"
+name = "pysifen"
 description = "Bindings Python para ler e gerar XML do SIFEN (Paraguay)"
 readme = "README.md"
 license = "MIT"
@@ -31,8 +31,8 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Homepage = "https://github.com/KMEE/sifenlib"
-Source = "https://github.com/KMEE/sifenlib"
+Homepage = "https://github.com/KMEE/pysifen"
+Source = "https://github.com/KMEE/pysifen"
 
 [project.optional-dependencies]
 sign = [
@@ -58,13 +58,13 @@ test = [
 [tool.setuptools]
 include-package-data = true
 [tool.setuptools.packages.find]
-include = ["sifenlib*"]
+include = ["pysifen*"]
 
 [tool.setuptools.dynamic]
-version = {attr = "sifenlib.__version__"}
+version = {attr = "pysifen.__version__"}
 
 [tool.setuptools.package-data]
-"sifenlib" = ["de/schemas/**/*.xsd", "de/samples/**/*.xml"]
+"pysifen" = ["de/schemas/**/*.xsd", "de/samples/**/*.xml"]
 
 [tool.ruff]
 target-version = "py310"
@@ -73,7 +73,7 @@ target-version = "py310"
 select = ["E", "F", "I", "W"]
 
 [tool.ruff.lint.per-file-ignores]
-"sifenlib/de/bindings/**" = ["E501"]
+"pysifen/de/bindings/**" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
