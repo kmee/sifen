@@ -1197,8 +1197,8 @@ class TestSignXml:
         with open(cert_path, "rb") as f:
             return f.read()
 
-    def test_sign_xml_requires_erpbrasil(self, cert_data):
-        """sign_xml levanta ImportError sem erpbrasil.assinatura."""
+    def test_sign_xml_requires_signxml(self, cert_data):
+        """sign_xml levanta ImportError sem signxml."""
         from sifenlib.de.bindings.v150.fe_v141 import RDe
 
         path = os.path.join(SAMPLES_DIR, "factura_electronica.xml")
@@ -1208,9 +1208,9 @@ class TestSignXml:
         try:
             rde.sign_xml(xml, cert_data, "test1234", rde.DE.Id)
         except ImportError as e:
-            assert "erpbrasil.assinatura" in str(e)
+            assert "sifenlib[sign]" in str(e)
         except Exception:
-            # Se erpbrasil.assinatura estiver instalado, qualquer
+            # Se signxml estiver instalado, qualquer
             # erro de assinatura é aceitável neste teste
             pass
 

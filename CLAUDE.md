@@ -116,13 +116,13 @@ xml = rde.to_xml()
 # Validar contra XSD
 errors = rde.validate_xml()
 
-# Assinar (requer erpbrasil.assinatura)
+# Assinar (requer signxml + cryptography)
 signed = rde.sign_xml(xml, cert_data, password, doc_id)
 ```
 
 ## Dependências Opcionais
 
-- `sign`: `erpbrasil.assinatura` — assinatura digital XML (RSA-SHA256)
+- `sign`: `signxml` + `cryptography` — assinatura digital XML (RSA-SHA256)
 - `soap`: `xsdata[soap]` — cliente SOAP para WS da SET
 - `test`: `pytest`, `pytest-cov`, `xmldiff`, `lxml`
 

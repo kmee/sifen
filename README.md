@@ -63,7 +63,7 @@ else:
         print(error)
 ```
 
-### Assinar XML (requer erpbrasil.assinatura)
+### Assinar XML (RSA-SHA256)
 
 ```python
 pip install sifenlib[sign]

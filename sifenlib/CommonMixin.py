@@ -65,13 +65,12 @@ class CommonMixin:
         return errors
 
     def sign_xml(self, xml, pkcs12_data, pkcs12_password, doc_id):
-        """Assina o XML usando certificado PKCS12."""
+        """Assina o XML usando certificado PKCS12 (RSA-SHA256)."""
         try:
-            from erpbrasil.assinatura import assinatura
+            from sifenlib.assinatura import sign_xml
         except ImportError:
             raise ImportError(
-                "Para assinar XML, instale: pip install erpbrasil.assinatura"
+                "Para assinar XML, instale: "
+                "pip install sifenlib[sign]"
             )
-        return assinatura.Assinatura(
-            pkcs12_data, pkcs12_password
-        ).assina_xml2(xml, doc_id)
+        return sign_xml(xml, pkcs12_data, pkcs12_password, doc_id)

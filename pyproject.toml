@@ -35,8 +35,19 @@ Homepage = "https://github.com/KMEE/sifenlib"
 Source = "https://github.com/KMEE/sifenlib"
 
 [project.optional-dependencies]
-sign = ["erpbrasil.assinatura"]
+sign = [
+    "signxml>=3.0",
+    "cryptography",
+    "lxml",
+]
 soap = ["xsdata[soap]"]
+transmissao = [
+    "xsdata[soap]",
+    "signxml>=3.0",
+    "cryptography",
+    "requests",
+    "lxml",
+]
 test = [
     "pytest",
     "pytest-cov",
