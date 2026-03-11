@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http://pypi.org/project/xsdata" version="22.7">
+  <Output maxLineLength="79">
+    <Package>generated</Package>
+    <Format repr="true" eq="true" order="false" unsafeHash="false"
+            frozen="false" slots="false" kwOnly="false">dataclasses</Format>
+    <Structure>filenames</Structure>
+    <DocstringStyle>reStructuredText</DocstringStyle>
+    <RelativeImports>false</RelativeImports>
+    <CompoundFields defaultName="choice" forceDefaultName="false">false</CompoundFields>
+    <PostponedAnnotations>false</PostponedAnnotations>
+    <UnnestClasses>false</UnnestClasses>
+  </Output>
+  <Extensions>
+    <Extension type="class" class=".*"
+               import="sifenlib.CommonMixin.CommonMixin"
+               prepend="false" applyIfDerived="false"/>
+  </Extensions>
+  <Conventions>
+    <ClassName case="pascalCase" safePrefix="type"/>
+    <FieldName case="originalCase" safePrefix="value"/>
+    <ConstantName case="screamingSnakeCase" safePrefix="value"/>
+    <ModuleName case="snakeCase" safePrefix="mod"/>
+    <PackageName case="snakeCase" safePrefix="pkg"/>
+  </Conventions>
+  <Substitutions>
+    <Substitution type="package"
+                  search="http://ekuatia.set.gov.py/sifen/xsd"
+                  replace="sifen"/>
+    <Substitution type="package"
+                  search="http://www.w3.org/2000/09/xmldsig#"
+                  replace="xmldsig"/>
+  </Substitutions>
+</Config>

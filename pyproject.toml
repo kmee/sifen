@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sifenlib"
+description = "Bindings Python para ler e gerar XML do SIFEN (Paraguay)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [
+    { name = "mileo", email = "mileo@kmee.com.br" },
+]
+keywords = [
+    "sifen", "factura-electronica", "paraguay", "ekuatia",
+    "xml", "xsdata", "documento-electronico", "set",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
+]
+dependencies = [
+    "xsdata",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/KMEE/sifenlib"
+Source = "https://github.com/KMEE/sifenlib"
+
+[project.optional-dependencies]
+sign = ["erpbrasil.assinatura"]
+soap = ["xsdata[soap]"]
+test = [
+    "pytest",
+    "pytest-cov",
+    "xmldiff",
+    "lxml",
+]
+
+[tool.setuptools]
+include-package-data = true
+[tool.setuptools.packages.find]
+include = ["sifenlib*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "sifenlib.__version__"}
+
+[tool.setuptools.package-data]
+"sifenlib" = ["de/schemas/**/*.xsd", "de/samples/**/*.xml"]
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
