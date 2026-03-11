@@ -1208,7 +1208,7 @@ class TestSignXml:
         try:
             rde.sign_xml(xml, cert_data, "test1234", rde.DE.Id)
         except ImportError as e:
-            assert "pysifen[sign]" in str(e)
+            assert "sifen[sign]" in str(e)
         except Exception:
             # Se signxml estiver instalado, qualquer
             # erro de assinatura é aceitável neste teste

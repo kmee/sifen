@@ -3,8 +3,8 @@ requires = ["setuptools>=75", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pysifen"
-description = "Bindings Python para ler e gerar XML do SIFEN (Paraguay)"
+name = "sifen"
+description = "Bindings Python para leer y generar XML del SIFEN (Paraguay)"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"
@@ -31,8 +31,8 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Homepage = "https://github.com/KMEE/pysifen"
-Source = "https://github.com/KMEE/pysifen"
+Homepage = "https://github.com/kmee/sifen"
+Source = "https://github.com/kmee/sifen"
 
 [project.optional-dependencies]
 sign = [

@@ -71,6 +71,6 @@ class CommonMixin:
         except ImportError:
             raise ImportError(
                 "Para assinar XML, instale: "
-                "pip install pysifen[sign]"
+                "pip install sifen[sign]"
             )
         return sign_xml(xml, pkcs12_data, pkcs12_password, doc_id)
