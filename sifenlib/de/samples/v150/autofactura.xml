@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rDE xmlns="http://ekuatia.set.gov.py/sifen/xsd">
+  <dVerFor>150</dVerFor>
+  <DE Id="01800695631001001000000812024121010153456789">
+    <dDVId>7</dDVId>
+    <dFecFirma>2024-12-10T10:15:00</dFecFirma>
+    <gOpeDE>
+      <iTipEmi>1</iTipEmi>
+      <dDesTipEmi>Normal</dDesTipEmi>
+      <dCodSeg>000000003</dCodSeg>
+    </gOpeDE>
+    <gTimb>
+      <iTiDE>4</iTiDE>
+      <dDesTiDE>Autofactura electrónica</dDesTiDE>
+      <dNumTim>12345678</dNumTim>
+      <dEst>001</dEst>
+      <dPunExp>001</dPunExp>
+      <dNumDoc>0000003</dNumDoc>
+      <dFeIniT>2024-01-01</dFeIniT>
+      <dFeFinT>2025-12-31</dFeFinT>
+    </gTimb>
+    <gDatGralOpe>
+      <dFeEmiDE>2024-12-10T10:15:00</dFeEmiDE>
+      <gOpeCom>
+        <iTipTra>1</iTipTra>
+        <dDesTipTra>Venta de mercadería</dDesTipTra>
+        <iTImp>1</iTImp>
+        <dDesTImp>IVA</dDesTImp>
+        <cMoneOpe>PYG</cMoneOpe>
+        <dDesMoneOpe>Guarani</dDesMoneOpe>
+      </gOpeCom>
+      <gEmis>
+        <dRucEm>80069563</dRucEm>
+        <dDVEmi>1</dDVEmi>
+        <iTipCont>1</iTipCont>
+        <dNomEmi>Empresa Demo S.A.</dNomEmi>
+        <dDirEmi>Av. España 1234</dDirEmi>
+        <dNumCas>1234</dNumCas>
+        <cDepEmi>1</cDepEmi>
+        <dDesDepEmi>CAPITAL</dDesDepEmi>
+        <cDisEmi>1</cDisEmi>
+        <dDesDisEmi>ASUNCION (DISTRITO)</dDesDisEmi>
+        <cCiuEmi>1</cCiuEmi>
+        <dDesCiuEmi>ASUNCION (DISTRITO)</dDesCiuEmi>
+        <dTelEmi>021123456</dTelEmi>
+        <dEmailE>demo@empresa.com.py</dEmailE>
+        <gActEco>
+          <cActEco>47111</cActEco>
+          <dDesActEco>Venta al por menor</dDesActEco>
+        </gActEco>
+      </gEmis>
+      <gDatRec>
+        <iNatRec>1</iNatRec>
+        <iTiOpe>1</iTiOpe>
+        <cPaisRec>PRY</cPaisRec>
+        <dDesPaisRe>Paraguay</dDesPaisRe>
+        <dNomRec>Juan Vendedor Pérez</dNomRec>
+      </gDatRec>
+    </gDatGralOpe>
+    <gDtipDE>
+      <gCamAE>
+        <iTipCons>1</iTipCons>
+        <dDesTipCons>Compra a personas físicas no inscriptas</dDesTipCons>
+        <dNumCons>12345</dNumCons>
+        <dNumControl>00001</dNumControl>
+        <iTipIDVen>1</iTipIDVen>
+        <dDTipIDVen>Cédula paraguaya</dDTipIDVen>
+        <dNumIDVen>1234567</dNumIDVen>
+        <dNomVen>Juan Vendedor Pérez</dNomVen>
+        <dDirVen>Calle Principal 100</dDirVen>
+        <dNumCasVen>100</dNumCasVen>
+        <cDepVen>1</cDepVen>
+        <dDesDepVen>CAPITAL</dDesDepVen>
+        <cCiuVen>1</cCiuVen>
+        <dDesCiuVen>ASUNCION (DISTRITO)</dDesCiuVen>
+        <dDirProv>Calle Principal 100</dDirProv>
+        <cDepProv>1</cDepProv>
+        <dDesDepProv>CAPITAL</dDesDepProv>
+        <cDisProv>1</cDisProv>
+        <dDesDisProv>ASUNCION (DISTRITO)</dDesDisProv>
+        <cCiuProv>1</cCiuProv>
+        <dDesCiuProv>ASUNCION (DISTRITO)</dDesCiuProv>
+      </gCamAE>
+      <gCamCond>
+        <iCondOpe>1</iCondOpe>
+        <dDCondOpe>Contado</dDCondOpe>
+        <gPaConEIni>
+          <iTiPago>1</iTiPago>
+          <dDesTiPag>Efectivo</dDesTiPag>
+          <dMonTiPag>200000</dMonTiPag>
+          <cMoneTiPag>PYG</cMoneTiPag>
+          <dDMoneTiPag>Guarani</dDMoneTiPag>
+        </gPaConEIni>
+      </gCamCond>
+      <gCamItem>
+        <dCodInt>MAT001</dCodInt>
+        <dDesProSer>Materia prima agrícola</dDesProSer>
+        <cUniMed>1</cUniMed>
+        <dDesUniMed>KG</dDesUniMed>
+        <dCantProSer>100</dCantProSer>
+        <gValorItem>
+          <dPUniProSer>2000</dPUniProSer>
+          <dDescItem>0</dDescItem>
+          <dTotOpeItem>200000</dTotOpeItem>
+          <dTotOpeGs>200000</dTotOpeGs>
+        </gValorItem>
+        <gCamIVA>
+          <iAfecIVA>3</iAfecIVA>
+          <dDesAfecIVA>Exento</dDesAfecIVA>
+          <dPropIVA>0</dPropIVA>
+          <dTasaIVA>0</dTasaIVA>
+          <dBasGravIVA>0</dBasGravIVA>
+          <dLiqIVAItem>0</dLiqIVAItem>
+        </gCamIVA>
+      </gCamItem>
+    </gDtipDE>
+    <gTotSub>
+      <dSubExe>200000</dSubExe>
+      <dTotOpe>200000</dTotOpe>
+      <dTotDesc>0</dTotDesc>
+      <dPorcDescTotal>0</dPorcDescTotal>
+      <dDescTotal>0</dDescTotal>
+      <dAnticipo>0</dAnticipo>
+      <dRedon>0</dRedon>
+      <dTotGralOpe>200000</dTotGralOpe>
+      <dTotalGs>200000</dTotalGs>
+    </gTotSub>
+  </DE>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+      <ds:Reference URI="">
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+        <ds:DigestValue>PLACEHOLDER</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>PLACEHOLDER</ds:SignatureValue>
+  </ds:Signature>
+  <gCamFuFD>
+    <dCarQR>https://ekuatia.set.gov.py/consultas/qr?nVersion=150</dCarQR>
+  </gCamFuFD>
+</rDE>
