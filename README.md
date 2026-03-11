@@ -10,10 +10,22 @@ Gerados automaticamente a partir dos XSD oficiais da SET usando [xsdata](https:/
 pip install sifenlib
 ```
 
+Com assinatura digital (RSA-SHA256):
+
+```bash
+pip install sifenlib[sign]
+```
+
+Com transmissão SOAP (envio ao SIFEN):
+
+```bash
+pip install sifenlib[transmissao]
+```
+
 Para desenvolvimento:
 
 ```bash
-pip install -e ".[test]"
+pip install -e ".[sign,test]"
 ```
 
 ## Uso
@@ -65,12 +77,85 @@ else:
 
 ### Assinar XML (RSA-SHA256)
 
-```python
+```bash
 pip install sifenlib[sign]
+```
 
+```python
 with open("certificado.pfx", "rb") as f:
     cert_data = f.read()
 signed = rde.sign_xml(xml, cert_data, "password", rde.DE.Id)
+```
+
+Usa `signxml` diretamente com RSA-SHA256 e C14N, conforme exigido pelo SIFEN.
+A função centralizada também está disponível em:
+
+```python
+from sifenlib.assinatura import sign_xml
+
+signed = sign_xml(xml, cert_data, "password", doc_id)
+```
+
+### Transmissão SOAP ao SIFEN
+
+```bash
+pip install sifenlib[transmissao]
+```
+
+#### Enviar DE (síncrono)
+
+```python
+from sifenlib.transmissao import TransmissaoDE, TEST
+
+transmissao = TransmissaoDE(
+    ambiente=TEST,
+    pkcs12_data=cert_data,
+    pkcs12_password="password",
+)
+resultado = transmissao.enviar_de(rde)
+print(resultado.rProtDe.dEstRes)      # "Aprobado"
+print(resultado.rProtDe.dProtAut)     # Protocolo de autorização
+```
+
+#### Enviar lote de DEs (assíncrono)
+
+```python
+resultado = transmissao.enviar_lote([rde1, rde2, rde3])
+print(resultado.dProtConsLote)  # Protocolo para consulta posterior
+```
+
+#### Consultar DE por CDC
+
+```python
+from sifenlib.transmissao import ConsultaSIFEN, TEST
+
+consulta = ConsultaSIFEN(
+    ambiente=TEST,
+    pkcs12_data=cert_data,
+    pkcs12_password="password",
+)
+resultado = consulta.consultar_de("01800695631001001000000612024112917595714694")
+```
+
+#### Consultar RUC
+
+```python
+resultado = consulta.consultar_ruc("80069563")
+print(resultado.xContRUC.dRazCons)      # Razão social
+print(resultado.xContRUC.dRUCFactElec)  # "S" = habilitado para FE
+```
+
+#### Enviar eventos (cancelamento, inutilização, etc.)
+
+```python
+from sifenlib.transmissao import TransmissaoEvento, TEST
+
+evento_transmissao = TransmissaoEvento(
+    ambiente=TEST,
+    pkcs12_data=cert_data,
+    pkcs12_password="password",
+)
+resultado = evento_transmissao.enviar_evento(evento)
 ```
 
 ## Tipos de Documento Electrónico
@@ -86,7 +171,9 @@ signed = rde.sign_xml(xml, cert_data, "password", rde.DE.Id)
 | Nota de Remisión | 7 | Nota de remissão |
 | Comprobante de Retención | 8 | Comprovante de retenção |
 
-## Módulos de Bindings
+## Módulos
+
+### Bindings (gerados automaticamente)
 
 | Módulo | Descrição |
 |--------|-----------|
@@ -101,6 +188,37 @@ signed = rde.sign_xml(xml, cert_data, "password", rde.DE.Id)
 | `ws_si_cons_ruc_v141` | WS Consulta RUC |
 | `prot_proces_de_v150` | Protocolo de processamento |
 | `xmldsig_core_schema` | Assinatura digital XML |
+
+### Assinatura (`sifenlib.assinatura`)
+
+| Função | Descrição |
+|--------|-----------|
+| `sign_xml()` | Assina XML com PKCS12/RSA-SHA256 usando `signxml` |
+
+### Transmissão (`sifenlib.transmissao`)
+
+| Classe | Descrição |
+|--------|-----------|
+| `TransmissaoDE` | Envio de DEs (síncrono e lote) com mTLS |
+| `ConsultaSIFEN` | Consultas (DE por CDC, lote, RUC, DTE) |
+| `TransmissaoEvento` | Envio de eventos (cancelamento, inutilização, etc.) |
+| `TransmissaoBase` | Classe base com SOAP client, mTLS e serialização |
+
+### Ambientes
+
+| Constante | Valor | Descrição |
+|-----------|-------|-----------|
+| `PRODUCCION` | 1 | Ambiente de produção (`sifen.set.gov.py`) |
+| `TEST` | 2 | Ambiente de testes (`sifen-test.set.gov.py`) |
+
+## Dependências Opcionais
+
+| Extra | Pacotes | Uso |
+|-------|---------|-----|
+| `sign` | `signxml`, `cryptography`, `lxml` | Assinatura digital RSA-SHA256 |
+| `transmissao` | `xsdata[soap]`, `signxml`, `cryptography`, `requests`, `lxml` | Transmissão SOAP com mTLS |
+| `soap` | `xsdata[soap]` | Apenas cliente SOAP |
+| `test` | `pytest`, `pytest-cov`, `xmldiff`, `lxml` | Testes |
 
 ## Regenerar Bindings
 
@@ -118,8 +236,9 @@ git clone https://github.com/KMEE/sifenlib.git
 cd sifenlib
 python -m venv .venv
 source .venv/bin/activate
-pip install -e ".[test]" "xsdata[cli,lxml]"
+pip install -e ".[sign,test]" "xsdata[cli,lxml]"
 pytest tests/ -v
+ruff check sifenlib/ tests/
 ```
 
 ## Referências
