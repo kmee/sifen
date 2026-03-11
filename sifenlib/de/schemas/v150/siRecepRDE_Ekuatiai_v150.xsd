@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        xmlns="http://ekuatia.set.gov.py/sifen/xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://ekuatia.set.gov.py/sifen/xsd siRecepDE_v150.xsd"
+        targetNamespace="http://ekuatia.set.gov.py/sifen/xsd">
+    <xs:include schemaLocation= "rde/150/RDE_Ekuatiai_Group.xsd"/>
+
+    <xs:element name="rDE" type="rDE"/>
+</xs:schema>
