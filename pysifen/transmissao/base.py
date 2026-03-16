@@ -49,9 +49,9 @@ class TransmissaoBase:
             return self._cert_files
 
         from cryptography.hazmat.primitives.serialization import (
-            BestAvailableEncryption,
             Encoding,
             NoEncryption,
+            PrivateFormat,
             pkcs12,
         )
 
@@ -75,9 +75,8 @@ class TransmissaoBase:
         key_file.write(
             private_key.private_bytes(
                 Encoding.PEM,
-                BestAvailableEncryption(b"")
-                if False
-                else NoEncryption(),
+                PrivateFormat.TraditionalOpenSSL,
+                NoEncryption(),
             )
         )
         key_file.close()
